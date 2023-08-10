@@ -1,0 +1,14 @@
+---
+list:
+  default:
+    driver_name: mysql
+    host: 127.0.0.1
+    port: "3306"
+    user: root
+    password: root
+    database: mysql
+    charset: utf8
+    add_to: 'parseTime=true&loc=Asia%2FChongqing'
+    max_open_conn: 20
+    max_idle_conn: 10
+    max_conn_life_time: 100

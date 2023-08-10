@@ -1,0 +1,43 @@
+package utils
+
+import "errors"
+
+const (
+	// 参数错误
+	ERROR_CODE_INVALID_PARAM = 1000
+	ERROR_CODE_EMPTY_PARAM   = 1001
+
+	// 数据库操作错误
+	ERROR_CODE_DB_ERROR            = 2000
+	ERROR_CODE_SQL_CONNECT_FAILURE = 2001
+	ERROR_CODE_SQL_FAILURE         = 2002
+	ERROR_CODE_PACK_SQL_FAILURE    = 2003
+	ERROR_CODE_SQL_QUERY_FAILURE   = 2004
+	ERROR_CODE_SQL_QUERY_EMPTY     = 2005
+	ERROR_CODE_SQL_DATA_NOT_EXIST  = 2006
+	ERROR_CODE_SQL_INSERT_FAILURE  = 2007
+	ERROR_CODE_SQL_DELETE_FAILURE  = 2008
+	ERROR_CODE_SQL_UPDATE_FAILURE  = 2009
+
+	ERROR_CODE_REDIS_CONNECT_FAILURE = 2020
+	ERROR_CODE_REDIS_FAILURE         = 2021
+
+	// 用户权限
+	ERROR_CODE_NOT_LOGIN = 4000
+	ERROR_CODE_NOT_AUTH  = 4001
+
+	// 内部错误
+	ERROR_CODE_INNER_ERR           = 5000
+	ERROR_CODE_UNKNOW              = 5001
+	ERROR_CODE_RELY_SERVER_FAILURE = 5002
+)
+
+type ErrCatch struct {
+	ErrCode int
+	ErrMsg  error
+}
+
+func (e *ErrCatch) ErrCatch(errNum int, errMsg string) {
+	e.ErrCode = errNum
+	e.ErrMsg = errors.New(errMsg)
+}
