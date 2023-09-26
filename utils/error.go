@@ -1,43 +1,52 @@
 package utils
 
-import "errors"
+import "fmt"
+
+type E int
 
 const (
 	// 参数错误
-	ERROR_CODE_INVALID_PARAM = 1000
-	ERROR_CODE_EMPTY_PARAM   = 1001
+	ErrorCodeInvalidParam E = 1000
+	ErrorCodeEmptyParam   E = 1001
 
 	// 数据库操作错误
-	ERROR_CODE_DB_ERROR            = 2000
-	ERROR_CODE_SQL_CONNECT_FAILURE = 2001
-	ERROR_CODE_SQL_FAILURE         = 2002
-	ERROR_CODE_PACK_SQL_FAILURE    = 2003
-	ERROR_CODE_SQL_QUERY_FAILURE   = 2004
-	ERROR_CODE_SQL_QUERY_EMPTY     = 2005
-	ERROR_CODE_SQL_DATA_NOT_EXIST  = 2006
-	ERROR_CODE_SQL_INSERT_FAILURE  = 2007
-	ERROR_CODE_SQL_DELETE_FAILURE  = 2008
-	ERROR_CODE_SQL_UPDATE_FAILURE  = 2009
+	ErrorCodeDdError           E = 2000
+	ErrorCodeSQLConnectFailure E = 2001
+	ErrorCodeSQLFailure        E = 2002
+	ErrorCodePackSQLFailure    E = 2003
+	ErrorCodeSQLQueryFailure   E = 2004
+	ErrorCodeSQLQueryEmpty     E = 2005
+	ErrorCodeSQLDataNotExist   E = 2006
+	ErrorCodeSQLInsertFailure  E = 2007
+	ErrorCodeSQLDeleteFailure  E = 2008
+	ErrorCodeSQLUpdateFailure  E = 2009
 
-	ERROR_CODE_REDIS_CONNECT_FAILURE = 2020
-	ERROR_CODE_REDIS_FAILURE         = 2021
+	ErrorCodeRedisConnectFailure E = 2020
+	ErrorCodeRedisFailure        E = 2021
 
 	// 用户权限
-	ERROR_CODE_NOT_LOGIN = 4000
-	ERROR_CODE_NOT_AUTH  = 4001
+	ErrorCodeNotLogin E = 4000
+	ErrorCodeNotAuth  E = 4001
 
 	// 内部错误
-	ERROR_CODE_INNER_ERR           = 5000
-	ERROR_CODE_UNKNOW              = 5001
-	ERROR_CODE_RELY_SERVER_FAILURE = 5002
+	ErrorCodeINNERERR          E = 5000
+	ErrorCodeUNKNOW            E = 5001
+	ErrorCodeRELYSERVERFAILURE E = 5002
 )
 
 type ErrCatch struct {
-	ErrCode int
-	ErrMsg  error
+	ErrCode E
+	ErrMsg  string
 }
 
-func (e *ErrCatch) ErrCatch(errNum int, errMsg string) {
-	e.ErrCode = errNum
-	e.ErrMsg = errors.New(errMsg)
+// Error 方法实现了 error 接口，它返回错误消息
+func (e *ErrCatch) Error() string {
+	return fmt.Sprintf("Code: %d, Msg: %s", e.ErrCode, e.ErrMsg)
+}
+
+func (e *ErrCatch) ErrCatch(errNum E, errMsg string) ErrCatch {
+	return ErrCatch{
+		ErrCode: errNum,
+		ErrMsg:  errMsg,
+	}
 }
